@@ -4,6 +4,10 @@ description: 'Receives MEEP requests and creates an issue'
 runs:
   using: 'node12'
   main: 'index.js'
+inputs:
+  bot_token:
+    description: 'Auth token with the repo scope'
+    required: true
 branding:
   icon: external-link
   color: green
