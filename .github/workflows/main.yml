@@ -25,6 +25,6 @@ jobs:
     runs-on: ubuntu-latest
     name: meeper
     steps:
-      - name: meeper
-        id: meeper
-        uses: moreeyesplz/meeper@master
+      - uses: moreeyesplz/meeper@master
+        with:
+          bot_token: ${{ secrets.BOT_TOKEN }}
