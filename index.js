@@ -23,13 +23,13 @@ octokit.issues.create({
         const commit_url = `https://github.com/${owner}/${repo}/commit/${id}`;
         octokit.issues.create({
             owner: 'moreeyesplz',
-            repo: 'meeper',
+            repo: 'meeps',
             title: commit_url,
             body: `${user} has requested more eyes [here](${commit_url}).\n\n${decoded}`,
             labels,
         }).catch((e) => {
             console.log('Failed to make meeper issue: ', e);
-        })
+        });
     }).catch((e) => {
         console.log('Failed to fetch repo topics: ', e);
     });
