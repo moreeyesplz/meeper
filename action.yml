@@ -1,0 +1,19 @@
+name: MEEPer
+author: moreeyesplz
+description: 'Receives MEEP requests and creates an issue'
+runs:
+  using: 'node12'
+  main: 'meeper.js'
+input:
+  user:
+    description: 'Commit author'
+    required: true
+  id:
+    description: 'Commit id'
+    required: true
+  message:
+    description: 'Commit message'
+    required: true
+branding:
+  icon: external-link
+  color: green

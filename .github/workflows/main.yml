@@ -1,0 +1,11 @@
+name: meeper
+
+# This job is only meant to be triggered manually
+jobs:
+  meeper:
+    runs-on: ubuntu-latest
+    name: meeper
+    steps:
+      - name: meeper
+        id: meeper
+        uses: moreeyesplz/meeper@master
