@@ -7,8 +7,6 @@ async function create_meep() {
     const token = core.getInput('bot_token');
     const octokit = github.getOctokit(token);
 
-    const decoded = Buffer.from(message, 'base64').toString('utf8');
-
     console.log(`Creating commit comment for ${owner}/${repo}/${id}`);
 
     await octokit.repos.createCommitComment({
@@ -24,7 +22,7 @@ async function create_meep() {
         owner: 'moreeyesplz',
         repo: 'meeps',
         title: commit_url,
-        body: `${user}\n${commit_url}\n${decoded}`,
+        body: `${user}\n${commit_url}\n${message}`,
         labels
     });
     console.log('Issue created: ', response);
