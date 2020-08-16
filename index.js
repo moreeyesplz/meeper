@@ -1,11 +1,23 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
+const { Octokit } = require('@octokit/rest');
+const { createAppAuth } = require('@octokit/auth-app');
 
 async function create_meep() {
     const { id, message, owner, repo, user } = github.context.payload.inputs;
 
-    const token = core.getInput('bot_token');
-    const octokit = github.getOctokit(token);
+    const id = core.getInput('bot_id')
+    const install_id = core.getInput('bot_install_id');
+    const pkey = core.getInput('bot_key');
+    const octokit = new Octokit({
+        authStrategy: createAppAuth,
+        auth: {
+            id,
+            privateKey: pkey,
+            installationId: install_id,
+        }
+    });
+    await octokit.auth({ type: 'app' });
 
     console.log(`Creating commit comment for ${owner}/${repo}/${id}`);
 
@@ -13,7 +25,10 @@ async function create_meep() {
         owner,
         repo,
         commit_sha: id,
-        body: `Hey there :) This commit has been indexed in the MEEPs database. \n\nFor those who are here and interested in providing critique, feedback, and suggestions, thanks! Please be respectful and humble in doing so, you are appreciated!`
+        body: `### :eyes: More Eyes, Plz! :eyes:
+Hey there @${user} :smile: This commit has been indexed in the [moreeyesplz](https://moreeyesplz.com) database. Feel free to add additional context about what you'd like others to provide feedback or insight on.
+
+For those who are here and interested in providing critique, feedback, and suggestions, thanks! Please be respectful and humble in doing so - you are appreciated! :hugs:`
     });
     const topics = await octokit.repos.getAllTopics({ owner, repo });
     const labels = topics.data ? topics.data.names : [];

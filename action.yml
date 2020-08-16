@@ -5,8 +5,14 @@ runs:
   using: 'node12'
   main: 'index.js'
 inputs:
-  bot_token:
-    description: 'Auth token with the repo scope'
+  bot_id:
+    description: 'App id'
+    required: true
+  bot_install_id:
+    description: 'App install id'
+    required: true
+  bot_key:
+    description: 'Bot pkey'
     required: true
 branding:
   icon: external-link
