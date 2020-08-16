@@ -15,6 +15,9 @@ on:
       message:
         description: 'Commit message'
         required: true
+      owner:
+        description: 'Repo owner'
+        required: true
 
 # This job is only meant to be triggered manually
 jobs:
