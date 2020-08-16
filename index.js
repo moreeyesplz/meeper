@@ -6,8 +6,8 @@ const { createAppAuth } = require('@octokit/auth-app');
 async function create_meep() {
     const { id, message, owner, repo, user } = github.context.payload.inputs;
 
-    const bot_id = core.getInput('bot_id')
-    const install_id = core.getInput('bot_install_id');
+    const bot_id = parseInt(core.getInput('bot_id'));
+    const install_id = parseInt(core.getInput('bot_install_id'));
     const pkey = core.getInput('bot_key');
     const octokit = new Octokit({
         authStrategy: createAppAuth,
@@ -17,7 +17,7 @@ async function create_meep() {
             installationId: install_id,
         }
     });
-    await octokit.auth({ type: 'installation', installationId: install_id });
+    await octokit.auth({ type: 'app' });
 
     console.log(`Creating commit comment for ${owner}/${repo}/${id}`);
 
