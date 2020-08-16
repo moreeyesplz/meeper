@@ -1,38 +1,37 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 
-const { id, message, owner, repo, user } = github.context.payload.inputs;
+async function create_meep() {
+    const { id, message, owner, repo, user } = github.context.payload.inputs;
 
-const token = core.getInput('bot_token');
-const octokit = github.getOctokit(token);
+    const token = core.getInput('bot_token');
+    const octokit = github.getOctokit(token);
 
-const decoded = Buffer.from(message, 'base64').toString('utf8');
+    const decoded = Buffer.from(message, 'base64').toString('utf8');
 
-octokit.issues.create({
-    owner,
-    repo,
-    title: 'More eyes, plz!',
-    body: decoded,
-}).then(value => {
-    console.log('Issue created: ', value.data);
-    octokit.repos.getAllTopics({
+    console.log(`Creating commit comment for ${owner}/${repo}/${id}`);
+
+    await octokit.repos.createCommitComment({
         owner,
-        repo
-    }).then((value) => {
-        const labels = value.names;
-        const commit_url = `https://github.com/${owner}/${repo}/commit/${id}`;
-        octokit.issues.create({
-            owner: 'moreeyesplz',
-            repo: 'meeps',
-            title: commit_url,
-            body: `${user} has requested more eyes [here](${commit_url}).\n\n${decoded}`,
-            labels,
-        }).catch((e) => {
-            console.log('Failed to make meeper issue: ', e);
-        });
-    }).catch((e) => {
-        console.log('Failed to fetch repo topics: ', e);
+        repo,
+        commit_sha: id,
+        body: `Hey there :) This commit has been indexed in the MEEPs database. \n\nFor those who are here and interested in providing critique, feedback, and suggestions, thanks! Please be respectful and humble in doing so, you are appreciated!`
     });
-}).catch(e => {
-    console.log('Failed to make user issue: ', e);
-});
+    const topics = await octokit.repos.getAllTopics({ owner, repo });
+    const labels = topics.data ? topics.data.names : [];
+    const commit_url = `https://github.com/${owner}/${repo}/commit/${id}`;
+    const response = await octokit.issues.create({
+        owner: 'moreeyesplz',
+        repo: 'meeps',
+        title: commit_url,
+        body: `${user}\n${commit_url}\n${decoded}`,
+        labels
+    });
+    console.log('Issue created: ', response);
+}
+
+try {
+    create_meep();
+} catch (e) {
+    core.setFailed(e.message);
+}
