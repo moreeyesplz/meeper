@@ -17,7 +17,7 @@ async function create_meep() {
             installationId: install_id,
         }
     });
-    await octokit.auth({ type: 'app' });
+    await octokit.auth({ type: 'installation', installationId: install_id });
 
     console.log(`Creating commit comment for ${owner}/${repo}/${id}`);
 
