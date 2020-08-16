@@ -1,5 +1,21 @@
 name: meeper
 
+on:
+  workflow_dispatch:
+    input:
+      user:
+        description: 'Commit author'
+        required: true
+      repo:
+        description: 'Originating repository'
+        required: true
+      id:
+        description: 'Commit id'
+        required: true
+      message:
+        description: 'Commit message'
+        required: true
+
 # This job is only meant to be triggered manually
 jobs:
   meeper:

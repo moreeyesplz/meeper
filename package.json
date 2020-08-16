@@ -2,7 +2,7 @@
   "name": "meeper",
   "version": "1.0.0",
   "description": "Internal action which accepts meeps scanned by the meep_scanner",
-  "main": "meeper.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
