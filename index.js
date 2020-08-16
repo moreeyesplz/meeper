@@ -6,13 +6,13 @@ const { createAppAuth } = require('@octokit/auth-app');
 async function create_meep() {
     const { id, message, owner, repo, user } = github.context.payload.inputs;
 
-    const id = core.getInput('bot_id')
+    const bot_id = core.getInput('bot_id')
     const install_id = core.getInput('bot_install_id');
     const pkey = core.getInput('bot_key');
     const octokit = new Octokit({
         authStrategy: createAppAuth,
         auth: {
-            id,
+            id: bot_id,
             privateKey: pkey,
             installationId: install_id,
         }
