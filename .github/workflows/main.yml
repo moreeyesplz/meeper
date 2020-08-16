@@ -2,7 +2,7 @@ name: meeper
 
 on:
   workflow_dispatch:
-    input:
+    inputs:
       user:
         description: 'Commit author'
         required: true
