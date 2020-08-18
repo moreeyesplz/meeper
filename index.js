@@ -47,7 +47,7 @@ Hey there @${user} :smile: This commit has been indexed in the [moreeyesplz](htt
 
 For those who are here and interested in providing critique, feedback, and suggestions, thanks! Please be respectful and humble in doing so - you are appreciated! :hugs:
 
-*meep #: ${issue_no}*`
+*meep no. ${issue_no}*`
     });
 }
 
