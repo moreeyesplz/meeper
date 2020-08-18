@@ -21,15 +21,6 @@ async function create_meep() {
 
     console.log(`Creating commit comment for ${owner}/${repo}/${id}`);
 
-    await octokit.repos.createCommitComment({
-        owner,
-        repo,
-        commit_sha: id,
-        body: `### :eyes: More Eyes, Plz! :eyes:
-Hey there @${user} :smile: This commit has been indexed in the [moreeyesplz](https://moreeyesplz.com) database. Feel free to add additional context about what you'd like others to provide feedback or insight on.
-
-For those who are here and interested in providing critique, feedback, and suggestions, thanks! Please be respectful and humble in doing so - you are appreciated! :hugs:`
-    });
     const topics = await octokit.repos.getAllTopics({ owner, repo });
     const labels = topics.data ? topics.data.names : [];
     const commit_url = `https://github.com/${owner}/${repo}/commit/${id}`;
@@ -41,6 +32,23 @@ For those who are here and interested in providing critique, feedback, and sugge
         labels
     });
     console.log('Issue created: ', response);
+    if (response.status !== 201) {
+        core.error(`Failed to create meep for ${owner}/${repo}/${id}`);
+        return;
+    }
+    const issue_no = response.data.number;
+
+    await octokit.repos.createCommitComment({
+        owner,
+        repo,
+        commit_sha: id,
+        body: `### :eyes: More Eyes, Plz! :eyes:
+Hey there @${user} :smile: This commit has been indexed in the [moreeyesplz](https://moreeyesplz.com) database. Feel free to add additional context about what you'd like others to provide feedback or insight on.
+
+For those who are here and interested in providing critique, feedback, and suggestions, thanks! Please be respectful and humble in doing so - you are appreciated! :hugs:
+
+*meep #: ${issue_no}*`
+    });
 }
 
 try {
