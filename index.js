@@ -47,6 +47,15 @@ Hey there @${user} :smile: This commit has been indexed in the [moreeyesplz](htt
 
 For those who are here and interested in providing critique, feedback, and suggestions, thanks! Please be respectful and humble in doing so - you are appreciated! :hugs:
 
+---
+#### Available commands
+
+Commands can be typed anywhere in the message body.
+
+\`[meep close]\` (original meeper only) indicate that the request has been fulfilled and can be removed from the meeps database.
+
+More commands coming soon!
+
 *meep no. ${issue_no}*`
     });
 }
